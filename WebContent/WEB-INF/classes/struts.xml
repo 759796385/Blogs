@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 指定全局国际化资源文件 -->
+	<constant name="struts.i18n.encoding" value="utf-8"/>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+	<package name="tq" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="authority" class="com.tq.interceptor.AuthorityInterceptor"/>
+			<interceptor name="testAuthority" class="com.tq.interceptor.ManagerInterceptor"></interceptor>
+		</interceptors>
+		<global-results>
+	        	<result name="sql">/WEB-INF/content/exception.jsp</result>
+	        	<result name="root">/WEB-INF/content/exception.jsp</result>
+	        	<result name="login">/WEB-INF/content/login.jsp</result>
+	        	<result name="menu">/WEB-INF/content/menu.jsp</result>
+	       		<!-- 配置全局结果，target是action中的属性  -->
+	        	<result>/WEB-INF/content/${target}.jsp</result>
+	    </global-results>
+	    <global-exception-mappings>
+			<!-- 当出现sql异常，转入name为sql的result中 -->
+			<exception-mapping result="sql" exception="java.sql.SQLException"/>
+			<!-- 当出现Exception异常，转入name为sql的result中 -->
+			<exception-mapping result="root" exception="java.lang.Exception"/>
+		</global-exception-mappings>
+		<!-- 登录 -->
+		<action name="Login" class="LoginAction" >
+			<result>/WEB-INF/content/menu.jsp</result>
+			<result name="error">/WEB-INF/content/login.jsp</result>
+		</action>
+		<!-- 登出 -->
+		<action name="Logout" class="LoginAction" method="logout">
+			<result>/WEB-INF/content/login.jsp</result>
+		</action>
+		<!-- 主页 -->
+		<action name="menu">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result>/WEB-INF/content/menu.jsp</result>
+		</action>
+		<!-- 写文章 -->
+		<action name="WriteArticle" class="WriteArticleAction">
+			<interceptor-ref name="defaultStack"/> 
+			<!-- 使用防刷新的token拦截器 -->
+			<interceptor-ref name="token"/>
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result name="invalid.token">/WEB-INF/content/write.jsp</result>
+			<result>/WEB-INF/content/menu.jsp</result>
+		</action>
+		<!-- 文章列表 -->
+		<action name="ArticleList" class="ArticleAction">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result>/WEB-INF/content/articlelist.jsp</result>
+		</action>
+		<!-- 删除文章 -->
+		<action name="DeleteArticle" class="ArticleAction" method="delete">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result type="redirectAction">ArticleList</result>
+		</action>
+		<!-- 修改文章 -->
+		<action name="ModifyArticle" class="ArticleAction" method="modify">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result name="error" type="redirectAction">ArticleList</result>
+			<result>/WEB-INF/content/write.jsp</result>
+		</action>
+		<!-- 添加标签 -->
+		<action name="AddLabel" class="LabelAction">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result type="redirectAction">LabelList</result>
+			<result name="error" type="chain">LabelList</result>
+		</action>
+		<!-- 标签列表 -->
+		<action name="LabelList" class="LabelAction" method="labelList">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result>/WEB-INF/content/labellist.jsp</result>
+		</action>
+		<!-- 删除标签 -->
+		<action name="DeleteLabel" class="LabelAction" method="deleteLabel">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result type="redirectAction">LabelList</result>
+		</action>
+		<!-- 添加分类 -->
+		<action name="AddCategory" class="CategoryAction">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result type="redirectAction">CategoryList</result>
+			<result name="error" type="chain">CategoryList</result>
+		</action>
+		<!-- 分类列表 -->
+		<action name="CategoryList" class="CategoryAction" method="categoryList">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result>/WEB-INF/content/categorylist.jsp</result>
+		</action>
+		<!-- 删除分类 -->
+		<action name="DeleteCategory" class="CategoryAction" method="deleteCategory">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result type="redirectAction">CategoryList</result>
+		</action>
+		<!-- 修改分类 -->
+		<action name="ModifyCategory" class="CategoryAction" method="updateCategory">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result type="redirectAction">CategoryList</result>
+			<result name="error" type="redirectAction">CategoryList</result>
+		</action>
+		
+		<!-- 文章首页 -->
+		<action name="index" class="IndexAction">
+			<result>/WEB-INF/content/index.jsp</result>
+		</action>
+		<!-- 阅读文章 -->
+		<action name="read" class="ContentAction">
+			<result>/WEB-INF/content/read.jsp</result>
+		</action>
+		<!-- 文章列表 -->
+		<action name="list" class="ArticleAction">
+			<result>/WEB-INF/content/list.jsp</result>
+		</action>
+		<!-- 分类文章 -->
+		<action name="categorys" class="CategoryAction" method="findArticleByCategoryId">
+			<result>/WEB-INF/content/list.jsp</result>
+		</action>
+		<!-- 标签文章 -->
+		<action name="labels" class="LabelAction" method="findArticleByLabelId">
+			<result>/WEB-INF/content/list.jsp</result>
+		</action>
+		<!-- 文章搜索 -->
+		<action name="search" class="ArticleAction" method="search">
+			<result>/WEB-INF/content/list.jsp</result>
+		</action>
+		<!-- 回复留言 -->
+		<action name="message" class="MessageAction">
+			<result type="redirect">read?id=${message.article.aid}</result>
+			<result type="redirect" name="error">read?id=${message.article.aid}</result>
+		</action>
+		
+		<!-- 留言列表 后台 -->
+		<action name="MessageList" class="MessageAction" method="messageList">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result>/WEB-INF/content/message.jsp</result>
+		</action>
+		<!-- 删除留言 -->
+		<action name="DeleteMessage" class="MessageAction" method="deleteMessage">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<interceptor-ref name="testAuthority"/>
+			<result type="redirectAction">MessageList</result>
+		</action>
+		<!-- 登录日志 -->
+		<action name="LoginLog" class="LogAction">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result>/WEB-INF/content/loginlog.jsp</result>
+		</action>
+		<!-- 操作日志 -->
+		<action name="DoLog" class="LogAction" method="doLogList">
+			<interceptor-ref name="defaultStack"/> 
+			<interceptor-ref name="authority"/>
+			<result>/WEB-INF/content/dolog.jsp</result>
+		</action>
+	</package>
+   
+   
+    <package name="json" namespace="/json" extends="json-default">
+	   <action name="upload" class="upload">
+	   			<interceptor-ref name="fileUpload">
+	            <param name="allowedTypes">image/png,image/gif,image/jpeg</param>
+	            <param name="maximumSize">2000000</param>
+	        </interceptor-ref>
+	        <interceptor-ref name="defaultStack"/>
+	          <result type="json">
+	                <param name="noCache">true</param>
+	                <param name="contentType">text/html</param>
+            </result>
+        </action>
+        <action name="label" class="labeljson">
+        	<result type="json">
+	                <param name="noCache">true</param>
+	                <param name="contentType">text/html</param>
+            </result>
+        </action>
+        <action name="category" class="categoryjson">
+        	<result type="json">
+	                <param name="noCache">true</param>
+	                <param name="contentType">text/html</param>
+            </result>
+        </action>
+	</package>
+</struts>

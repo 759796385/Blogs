@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>个人博客</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="container hd">
+		<div class="title">
+			<img src="../image/head.png" class="img-circle img-responsive center-block" alt="头像">
+			<h1>没有什么难的</h1>
+		</div>
+		<div class="navs">
+			<ul class="nav nav-tabs">
+				<li role="presentation"><a href="index.html">首页</a></li>
+				<li role="presentation"><a href="list.html">归档</a></li>
+				<li role="presentation"><a href="https://github.com/759796385">github</a></li>
+				<li role="presentation"><a href="about.html">关于</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- 主体 -->
+	<div class="container main"> 
+		<div class="row">
+			<!-- 博文显示区 -->
+			<div class="col-md-9 content">
+				<table class="table">
+					<thead>
+						<tr>
+							<td>序号</td>
+							<td>标题</td>
+							<td>日期</td>
+							<td>访问次数</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td><a href="#">俺的第一篇博文</a></td>
+							<td>2015/2/22</td>
+							<td>43</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td><a href="#">俺的第一篇博文</a></td>
+							<td>2015/2/22</td>
+							<td>43</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td><a href="#">俺的第一篇博文</a></td>
+							<td>2015/2/22</td>
+							<td>43</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td><a href="#">俺的第一篇博文</a></td>
+							<td>2015/2/22</td>
+							<td>43</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td><a href="#">俺的第一篇博文</a></td>
+							<td>2015/2/22</td>
+							<td>43</td>
+						</tr>
+					</tbody>
+				</table>
+			 	<!-- 翻页 -->
+			 	<nav>
+				  <ul class="pager">
+				   	 	<li class="previous"><a href="#">上一页</a></li>
+				    	<li class="next"><a href="#">下一页</a></li>
+				  </ul>
+				</nav>
+		    </div> 
+			<!-- 菜单显示区 -->
+			<div class="menu col-md-3 hidden-xs">
+				<input type="" placeholder="搜索" class="search" id="search">
+				<!-- 分类 -->
+				<div class="sort">
+					<h4>分类</h2>
+					<!-- <ul class="nav nav-tabs nav-stacked">
+					  <li role="presentation"><a href="#">WEB前端<span class="badge">3</span></a></li>
+					  <li role="presentation"><a href="#">后端<span class="badge">3</span></a></li>
+					  <li role="presentation"><a href="#">杂文<span class="badge">3</span></a></li>
+					</ul> -->
+					<div class="list-group">
+						<a href="#" class="list-group-item">WEB前端<span class="badge">3</span></a>
+						<a href="#" class="list-group-item">后端<span class="badge">3</span></a>
+						<a href="#" class="list-group-item">杂文<span class="badge">3</span></a>
+					</div>
+				</div>
+				<!-- 归档 -->
+				<div class="times">
+					<h4>时间集</h2>
+					<!-- <ul class="nav nav-tabs nav-stacked">
+					  <li role="presentation"><a href="#">2015年5月<span class="badge">3</span></a></li>
+					  <li role="presentation"><a href="#">2015年12月<span class="badge">3</span></a></li>
+					  <li role="presentation"><a href="#">2015年1月<span class="badge">3</span></a></li>
+					</ul> -->
+					<div class="list-group">
+					  <a href="#" class="list-group-item">
+					    Cras justo odio<span class="badge">3</span>
+					  </a>
+					  <a href="#" class="list-group-item">Dapibus ac facilisis in<span class="badge">3</span></a>
+					  <a href="#" class="list-group-item">Morbi leo risus<span class="badge">3</span></a>
+					  <a href="#" class="list-group-item">Porta ac consectetur ac<span class="badge">3</span></a>
+					  <a href="#" class="list-group-item">Vestibulum at eros<span class="badge">3</span></a>
+					</div>
+				<!-- 标签 -->
+				<div class="labels">
+					<h4>标签</h2>
+						<div class="span-group" role="group">
+						  	<span class="label label-info"><a href="">Primary</a></span>
+							<span class="label label-info"><a href="">Success</a></span>
+							<span class="label label-info"><a href="">Info</a></span>
+							<span class="label label-info"><a href="">Warning</a></span>
+							<span class="label label-info"><a href="">Danger</a></span>
+						</div>
+
+				</div>
+				<!-- weibo -->
+				<div class="weibo">
+					<div class="embed-responsive embed-responsive-4by3">
+					<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=3142404422&verifier=e323b3f2&dpc=1"></iframe>
+					</div>
+				</div>
+			</div> 
+		</div>  
+	</div>
+	    <!-- 尾部 -->
+    <div class="container ft">
+    	<p>您是第
+    		<a target="_blank" title="网店计数器" href="http://gostats.cn"><img alt="网店计数器" 
+			src="http://c4.gostats.cn/bin/count/a_403257/t_7/i_3/z_0/show_hits/counter.png" 
+			style="border-width:0" /></a>位访客
+		</p>
+		<p>
+			Powered by newtonk  | Theme by LOFTER.|湘ICP备15004649号-1
+		</p>
+		
+    </div>   
+</body>
+</html>

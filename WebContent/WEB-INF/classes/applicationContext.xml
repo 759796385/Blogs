@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframewordk.org/schema/c"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<bean name="datasource" class="org.springframework.jndi.JndiObjectFactoryBean"
+	p:jndiName="java:comp/env/jdbc/mysql"/>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+    p:dataSource-ref="datasource">
+    	<property name="mappingResources">
+    		<list>
+    			<value>com/tq/entity/User.hbm.xml</value>
+    			<value>com/tq/entity/Article.hbm.xml</value>
+    			<value>com/tq/entity/Category.hbm.xml</value>
+    			<value>com/tq/entity/Label.hbm.xml</value>
+    			<value>com/tq/entity/Log.hbm.xml</value>
+    			<value>com/tq/entity/Message.hbm.xml</value>
+    		</list>
+    	</property>
+    	<!-- 定义hibernate sessionFactory的属性 -->
+    	<property name="hibernateProperties">
+    		<props>
+    		<!-- 定义数据库方言 -->
+    			<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+    			<prop key="hibernate.hbm2ddl.auto">update</prop>
+    			<prop key="hibernate.show_sql">true</prop>
+    			<prop key="hibernate.format_sql">true</prop>
+    			<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
+    		</props>
+    	</property>
+    </bean>
+    
+    
+    <!-- dao -->
+    <bean id="IUserDAO" class="com.tq.DAO.impl.UserDAOImpl" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="IArticleDAO" class="com.tq.DAO.impl.ArticleDAOImpl" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="ILabelDAO" class="com.tq.DAO.impl.LabelDAOImpl" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="ICategoryDAO" class="com.tq.DAO.impl.CategoryDAOImpl" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="IMessageDAO" class="com.tq.DAO.impl.MessageDAOImpl" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="ILogDAO" class="com.tq.DAO.impl.LogDAOImpl" p:sessionFactory-ref="sessionFactory"></bean>
+    
+    
+    <!-- service -->
+    <bean id="IUserService" class="com.tq.service.impl.UserServiceImpl" p:dao-ref="IUserDAO"></bean>
+    <bean id="IArticleService" class="com.tq.service.impl.ArticleServiceImpl" 
+    p:dao-ref="IArticleDAO" 
+    p:labeldao-ref="ILabelDAO"
+    p:categorydao-ref="ICategoryDAO"/>
+    <bean id="ILabelService" class="com.tq.service.impl.LabelServiceImpl" p:dao-ref="ILabelDAO"></bean>
+    <bean id="ICategoryService" class="com.tq.service.impl.CategoryServiceImpl" p:dao-ref="ICategoryDAO"></bean>
+    <bean id="IMessageService" class="com.tq.service.impl.MessageServiceImpl" p:dao-ref="IMessageDAO"></bean>
+    <bean id="ILogService" class="com.tq.service.impl.LogServiceImpl" p:dao-ref="ILogDAO"></bean>
+    
+    
+    <!-- Action -->
+    <bean id="LoginAction" class="com.tq.action.LoginAction" scope="prototype"
+     p:service-ref="IUserService" p:messageservice-ref="IMessageService" p:logservice-ref="ILogService"></bean>
+ 	<bean id="WriteArticleAction" class="com.tq.action.WriteArticleAction" scope="prototype" p:service-ref="IArticleService" p:logservice-ref="ILogService"></bean>
+ 	<bean id="LabelAction" class="com.tq.action.LabelAction" scope="prototype" p:service-ref="ILabelService" p:logservice-ref="ILogService"></bean>
+ 	<bean id="ArticleAction" class="com.tq.action.ArticleAction" scope="prototype" p:service-ref="IArticleService" p:logservice-ref="ILogService"></bean>
+ 	<bean id="CategoryAction" class="com.tq.action.CategoryAction" scope="prototype" p:service-ref="ICategoryService" p:logservice-ref="ILogService"></bean>
+ 	<bean id="IndexAction" class="com.tq.action.IndexAction" scope="prototype" p:service-ref="IArticleService"></bean>
+ 	<bean id="ContentAction" class="com.tq.action.ContentAction" scope="prototype" p:service-ref="IArticleService"></bean>
+ 	<bean id="MessageAction" class="com.tq.action.MessageAction" scope="prototype" p:service-ref="IMessageService" p:logservice-ref="ILogService"/>
+ 	<bean id="LogAction" class="com.tq.action.LogAction" scope="prototype" p:service-ref="ILogService"/>
+ 	
+ 	
+	<!-- ajax -->
+	<bean id="upload" class="com.tq.ajax.UploadJson" scope="prototype"/>
+	<bean id="labeljson" class="com.tq.ajax.LabelJson" scope="prototype" p:service-ref="ILabelService"/>
+	<bean id="categoryjson" class="com.tq.ajax.CategoryJson" scope="prototype" p:service-ref="ICategoryService"/>
+	
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+    p:sessionFactory-ref="sessionFactory"/>
+	<!-- 事务 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*get" read-only="true"/>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<!-- 配置一个切入点 -->
+		<aop:pointcut expression="bean(*Service)" id="myPointcut"/>
+		<!-- 配置事务 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut"/>
+	</aop:config>
+</beans>

@@ -1,0 +1,166 @@
+.main .content .label{
+		background-color: #9fa7a2;
+	}
+
+a:hover{
+	text-decoration: none;
+}
+
+body{
+	background: url(../image/bg.jpg) fixed 0 0;
+	background-size: cover;
+}
+
+/*头部*/
+.hd .title{
+	border-color: #7f9397;
+	border: 4px double #7f9397;
+  	border-width: 4px 0;
+  	padding: 25px 0;
+  	margin-top: 40px;
+}
+
+
+.hd .title h1{
+	color: #a7aeaf;
+	font-size: 20px;
+  	font-weight: normal;
+  	font-style: italic;
+  	letter-spacing: 4px;
+  	line-height: 42px;
+  	text-shadow: 0 0 10px rgba(255,255,255,0.75);
+  	text-align: center;
+}
+
+
+.hd .navs{
+	border-bottom: 1px dotted #7f9397;
+}
+
+.hd .navs .nav-tabs {
+	margin: 30px 0;
+	border-bottom:none;
+  	text-align: center;
+  	background-color: none;
+}
+
+.hd .navs a{
+	padding: 0 0;
+	color: white;
+}
+
+
+.hd .nav>li {
+  display: inline-block;
+  float: none;
+  margin-left: 20px;
+}
+
+/*主体*/
+
+.main .content{
+	padding: 0 30px;
+}
+
+.main .content h1>a{
+	color: white;
+}
+
+.main .content h1>a:hover{
+	color: #f0e5e5;
+}
+
+.main .content .pull-right{
+	display: inline-block;
+	margin-top: 0px;
+}
+
+/*阅读信息*/
+.main .content .sum{
+	display: inline-block;
+	padding-left: 10px;
+}
+
+/*菜单栏*/
+
+.search{
+	margin: 20px 0px;
+	background-color: transparent;
+	border: 2px dotted #7f9397;;
+}
+
+.list-group-item {
+  border: none;
+  background-color: transparent;
+}
+
+a.list-group-item, button.list-group-item {
+  color: #a7aeaf;
+}
+.menu .labels .label{
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.menu .nav-tabs{
+	  border-bottom: none;
+}
+
+.menu .nav-tabs a{
+	color: #a7aeaf;
+}
+
+.weibo{
+	margin-top: 40px;
+}
+
+/*尾部*/
+.ft{
+	margin-top: 50px;
+}
+
+.ft p{
+	text-align: center;
+}
+
+/*归档列表*/
+.content .table>tbody>tr>td, .table>thead>tr>td{
+	padding: 20px;
+	font-weight: bold;
+}
+
+.content .table tbody a{
+	color: #333;
+}
+
+.content .table a:hover{
+	color: #a7aeaf;
+}
+
+
+/*留言板*/
+.msgboard{
+	margin: 40px 0px;
+}
+
+.msgboard .media{
+	color: white;
+}
+
+.msgboard .media-body span{
+	display: block;
+}
+
+.msgboard .media-body .repmsg{
+	margin-bottom: 5px;
+}
+
+.msgboard .media-body .repmsg a{
+	color: powderblue;
+}
+
+.form-horizontal .form-group {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
