@@ -17,17 +17,28 @@ public class ArticleDAOImpl extends BaseDAOHibernate4<Article> implements
 
 	@Override
 	public void saveArticle(ArticleDTO article, Set<Label> hibernatelabel) {
-		// 将dto转换成entity
-		Article obj = new Article(article);
 		// 将String 转换成Clob
 		Clob text = Hibernate.getLobCreator(
 				getSessionFactory().getCurrentSession()).createClob(
 				article.getText());
-		obj.setText(text);
-		obj.setLabels(hibernatelabel);
-		obj.setDate(new Date());
-		// 由于new了个对象，和session中的对象地址不一样
-		merge(obj);
+		if (article.getId() == 0) {
+			// 将dto转换成entity
+			Article obj = new Article(article);
+			obj.setText(text);
+			obj.setLabels(hibernatelabel);
+			obj.setDate(new Date());
+			// 由于new了个对象，和session中的对象地址不一样
+			save(obj);
+		} else {
+			// 更新 从缓存中拿
+			Article a = get(Article.class, article.getId());
+			a.setTitle(article.getTitle());
+			a.setCategory(article.getCategory());
+			a.setRemark(article.getRemark());
+			a.setText(text);
+			a.setLabels(hibernatelabel);
+			update(a);
+		}
 	}
 
 	/*
