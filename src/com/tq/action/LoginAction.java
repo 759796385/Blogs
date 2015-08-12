@@ -74,8 +74,16 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 			return ERROR;
 		}
 		// 执行用户登录
-		String ip = request.getRemoteAddr();
-		User ruser = service.login(user, ip);
+		// 修复反向客户端代理127.0.0.1问题
+		String ip = request.getHeader("x-forwarded-for") == null ? request
+				.getRemoteAddr() : request.getHeader("x-forwarded-for");
+
+		User ruser = null;
+		try {
+			ruser = service.login(user, ip);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (ruser != null) {// 登陆成功
 			int num = messageservice.noRead();
 			logservice.addLoginLog(ruser, "成功");
