@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery-2.1.1.js" type="text/javascript"></script>
-
+	<script src="js/bootstrap.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<!-- 头部 -->
@@ -89,6 +89,27 @@
 						</div>
 
 				</div>
+
+				<!-- 二维码 -->
+				<div class="qrcode">
+					<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					  <div class="panel panel-default">
+					    <div class="panel-heading" role="tab" id="headingOne">
+					      <h4 class="panel-title">
+					        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					          点我手机扫描二维码访问~
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+					      <div class="panel-body">
+					        <img src="aaa" class="img-thumbnail" id="qrcode">
+					      </div>
+					    </div>
+					  </div>
+					</div>
+				</div>
+				
 				<!-- weibo -->
 				<div class="weibo">
 					<div class="embed-responsive embed-responsive-4by3">
@@ -101,7 +122,7 @@
 	    <!-- 尾部 -->
     <div class="container ft">
     	<p>您是第
-    		<a target="_blank" title="网店计数器" href="http://gostats.cn"><img alt="网店计数器" 
+    		<a target="_blank" title="访客计数器" href="http://gostats.cn"><img alt="访客计数器" 
 			src="http://c4.gostats.cn/bin/count/a_403257/t_7/i_3/z_0/show_hits/counter.png" 
 			style="border-width:0" /></a>位访客
 		</p>
@@ -143,6 +164,11 @@
             			}
             		}
             	});
+
+			//二维码地址
+			$("#qrcode").attr("src",function(){
+				return "http://www.newtonk.com/qrservlet?qrtext="+window.document.location;
+			});
 
     	var $pageno = $(":input[name='pageNo']").val();
 			$("#next").click(function(){

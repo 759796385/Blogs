@@ -110,6 +110,10 @@ a.list-group-item, button.list-group-item {
 	color: #a7aeaf;
 }
 
+.qrcode{
+	margin-top: 40px;
+}
+
 .weibo{
 	margin-top: 40px;
 }
