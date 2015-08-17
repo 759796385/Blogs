@@ -80,6 +80,12 @@ public class ArticleServiceImpl implements IArticleService {
 		if (article == null) {
 			return;
 		}
+		// 解除文章和标签的关系
+		Set<Label> set = article.getLabels();
+		for (Label label : set) {
+			label.getArticles().remove(article);
+		}
+		article.setLabels(null);
 		dao.delete(article);
 	}
 

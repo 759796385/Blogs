@@ -15,18 +15,19 @@ public class IndexAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		setPageNo(pageNo);
+
 		if (pageSize == 0) {
 			setPageSize(10);
 		}
 		int sum = service.getPageNum(pageSize);
 		setPageSum(sum);
+		guigePageNo(pageNo);
 		List<Article> result = service.getArticleByTimeList(pageNo, pageSize);
 		setArticles(result);
 		return SUCCESS;
 	}
 
-	public void setPageNo(int pageNo) {
+	public void guigePageNo(int pageNo) {
 		if (pageNo <= 0) {
 			// 页面被篡改小于1 便置为一
 			this.pageNo = 1;
@@ -36,6 +37,10 @@ public class IndexAction extends ActionSupport {
 		} else {
 			this.pageNo = pageNo;
 		}
+	}
+
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
 	}
 
 	public void setPageSize(int pageSize) {

@@ -1,10 +1,12 @@
 package com.tq.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 
 import com.tq.DAO.ILabelDAO;
+import com.tq.entity.Article;
 import com.tq.entity.Label;
 import com.tq.service.ILabelService;
 
@@ -36,6 +38,13 @@ public class LabelServiceImpl implements ILabelService {
 		Label label = dao.get(Label.class, lid);
 		if (label == null)
 			return;
+		// 断绝标签和文章的关系
+		Set<Article> set = label.getArticles();
+		for (Article article : set) {
+			article.getLabels().remove(label);
+		}
+
+		label.setArticles(null);
 		dao.delete(label);
 	}
 

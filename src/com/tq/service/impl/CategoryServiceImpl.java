@@ -52,7 +52,15 @@ public class CategoryServiceImpl implements ICategoryService {
 	 */
 	@Override
 	public void deleteById(int cid) {
-		dao.delete(Category.class, cid);
+		Category c = dao.get(Category.class, cid);
+		// 断绝类别和文章的关系
+		Set<Article> article = c.getArticle();
+		for (Article article2 : article) {
+			article2.setCategory(null);
+		}
+		c.setArticle(null);
+
+		dao.delete(c);
 	}
 
 	/*
